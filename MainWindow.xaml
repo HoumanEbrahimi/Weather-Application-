@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:uc="clr-namespace:Weather.UserControls"
         WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" FontFamily="Cambria"
-        Background="Transparent" mc:Ignorable="d" Height="685" Width="995">
+        Background="Transparent" mc:Ignorable="d" Height="885" Width="995">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -26,7 +26,7 @@
                         <Image Source="/Images/explore.png" Height="18" Margin="5 0 0 0"/>
 
                         <Button Content="Search " Click="click" RenderTransformOrigin="1.226,2.422" Height="28" VerticalAlignment="Top" Margin="0,4,0,0"/>
-                       <!-- <TextBox Name="TextSearch" Grid.Column="1" Margin="10,2,16,-2" />-->
+                        <!-- <TextBox Name="TextSearch" Grid.Column="1" Margin="10,2,16,-2" />-->
 
                         <TextBlock x:Name="textSearch" MouseDown="textSearch_MouseDown" Text="Search ..." Style="{StaticResource textHint}"/>
                         <TextBox Name="txtSearch" TextChanged="txtSearch_TextChanged" Style="{StaticResource textBox}" Grid.Column="1" Margin="26,0,-16,0" VerticalAlignment="Top"/>
@@ -43,9 +43,8 @@
                         <TextBlock Name="WeatherCondition" FontSize="14" FontWeight="SemiBold" Margin="10 0 0 0" VerticalAlignment="Center"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0 15 0 77">
-                        <Image Source="/Images/water.png" Width="20" Height="20"/>
-                        <TextBlock Name="feelsLike"/>
-                        <TextBlock Text="Rain - 30%" FontSize="14" FontWeight="SemiBold" Margin="10 0 0 0" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="feelsLike"/>
+                        <!-- <TextBlock Text="Rain - 30%" FontSize="14" FontWeight="SemiBold" Margin="10 0 0 0" VerticalAlignment="Center"/>-->
                     </StackPanel>
                 </StackPanel>
 
@@ -92,11 +91,10 @@
                 <TextBlock Text="Today's Highlights" FontSize="16" FontWeight="SemiBold" Margin="40 10 0 10"/>
 
                 <!--Widget Section-->
-                <WrapPanel Margin="40 0 0 0">
+                <WrapPanel Margin="40 0 0 0" Width="716">
                     <!--Widget 1-->
                     <Border Style="{StaticResource widgetBorder}">
                         <StackPanel>
-                            <TextBlock Text="UV Index" Style="{StaticResource titleText}"/>
 
                             <Slider Style="{DynamicResource SliderStyle1}" VerticalAlignment="Bottom" Value="4" Maximum="10" Margin="0 12 0 0"/>
                             <Slider Style="{DynamicResource SliderStyle1}" VerticalAlignment="Bottom" Value="7" Maximum="10" Margin="0 5"/>
@@ -112,34 +110,34 @@
                             <TextBlock Text="Wind Status" Style="{StaticResource titleText}"/>
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <TextBlock Name="WindSpeed" Text="7.70" FontSize="34" FontWeight="SemiBold"/>
+                                <TextBlock Name="WindSpeed"  FontSize="34" FontWeight="SemiBold"/>
                                 <TextBlock Text="km/h" FontSize="14" VerticalAlignment="Bottom" Margin="5 0 0 3"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
                                 <Image Source="/Images/dir.png" Width="25" Height="25" Margin="0 0 10 0"/>
-                                <TextBlock Text="WSW" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                <TextBlock  Name="windDirection" FontWeight="SemiBold" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Grid>
                     </Border>
 
                     <!--Widget 3-->
-                    <Border Style="{StaticResource widgetBorder}" BorderBrush="#03A9F4">
+                    <Border Style="{StaticResource widgetBorder}" BorderBrush="#03A9F4" Width="241">
                         <StackPanel>
                             <TextBlock Text="Sunrise Sunset" Style="{StaticResource titleText}"/>
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 25 0 0">
                                 <Image Source="/Images/sunrise.png" Width="40" Height="40" Margin="0 0 10 0"/>
                                 <StackPanel>
-                                    <TextBlock Text="6:35 AM" FontSize="16" FontWeight="SemiBold"/>
-                                    <TextBlock Text="-1m 46s" FontSize="12" Margin="0 2 0 0" Foreground="#a0a0a0"/>
+                                    <TextBlock Name="SunriseContext" FontSize="16" FontWeight="SemiBold"/>
+                                    <TextBlock  FontSize="12" Margin="0 2 0 0" Foreground="#a0a0a0"/>
                                 </StackPanel>
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 10 0 0">
                                 <Image Source="/Images/sunset.png" Width="40" Height="40" Margin="0 0 10 0"/>
                                 <StackPanel>
-                                    <TextBlock Text="5:12 AM" FontSize="16" FontWeight="SemiBold"/>
-                                    <TextBlock Text="+2m 15s" FontSize="12" Margin="0 2 0 0" Foreground="#a0a0a0"/>
+                                    <TextBlock Name="SunsetContext" FontSize="16" FontWeight="SemiBold"/>
+                                    <TextBlock  FontSize="12" Margin="0 2 0 0" Foreground="#a0a0a0"/>
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>
@@ -154,8 +152,8 @@
                                 <TextBlock Text="%" FontSize="14" VerticalAlignment="Bottom" Margin="5 0 0 3"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
-                                <TextBlock Text="Normal" FontWeight="SemiBold"/>
-                                <Image Source="/Images/like.png" Width="18" Height="18" Margin="10 0 0 0"/>
+                                <TextBlock Name="humidContext" FontWeight="SemiBold"/>
+                                <Image Name="howHumid" Width="18" Height="18" Margin="10 0 0 0"/>
                             </StackPanel>
 
                             <Slider Style="{DynamicResource SliderStyle1}" Value="5.5" Maximum="10" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="90"/>
@@ -180,21 +178,43 @@
                     </Border>
 
                     <!--Widget 6-->
-                    <Border Style="{StaticResource widgetBorder}">
+                    <Border Style="{StaticResource widgetBorder}" Width="241">
                         <Grid>
                             <TextBlock Text="Air Quality" Style="{StaticResource titleText}"/>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <TextBlock Text="105" FontSize="34" FontWeight="SemiBold"/>
-                                <TextBlock Text="aqi" FontSize="14" VerticalAlignment="Bottom" Margin="5 0 0 3"/>
+                                <!--<TextBlock Text="105" FontSize="34" FontWeight="SemiBold"/>-->
+                                <TextBlock Name="UvVal" FontSize="14" VerticalAlignment="Bottom" Margin="5 0 0 3"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
-                                <TextBlock Text="Unhealthy" FontWeight="SemiBold"/>
-                                <Image Source="/Images/dislike.png" Width="18" Height="18" Margin="10 0 0 0"/>
+                                <TextBlock Name="airQuality" FontWeight="SemiBold"/>
+                                <Image Name="airQualityCondition" Width="18" Height="18" Margin="10 0 0 0"/>
                             </StackPanel>
-
                             <Slider Style="{DynamicResource SliderStyle1}" Value="7" Maximum="10" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="90"/>
                         </Grid>
                     </Border>
+
+                    <Border Style="{StaticResource widgetBorder}" Width="717" Height="195" >
+                        <Grid>
+                            <TextBlock Text="Daily Forecast" Name="forecastTitle" Margin="0,-11,0,137" HorizontalAlignment="Center"/>
+
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Name="tempnext" Height="163" RenderTransformOrigin="0.5,0.5" Width="85.625" TextWrapping="WrapWithOverflow"/>
+                                <TextBlock x:Name="secondHour" Width="85.625" Height="159"/>
+                                <TextBlock x:Name="thirdHour" Width="85.625" Height="161"/>
+                                <TextBlock x:Name="fourthHour" Width="85.625"/>
+                                <TextBlock Name="fifthHour" Width="85.625"/>
+                                <TextBlock Name="sixthHour" Width="85.625"/>
+                                <TextBlock Name="seventhHour" Width="85.625"/>
+                                <TextBlock Name="eigthHour" Width="85.625"/>
+
+
+                            </StackPanel>
+
+
+                        </Grid>
+
+                    </Border>
+
 
                 </WrapPanel>
 
