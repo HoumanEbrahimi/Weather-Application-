@@ -11,9 +11,7 @@ using System.Windows.Media.Imaging;
 using weatherForecast;
 
 namespace Weather
-
 {
-
     public partial class MainWindow : Window
     {
         [DllImport("Kernel32")]
@@ -67,7 +65,8 @@ namespace Weather
             using (WebClient client = new WebClient())
             {
                 string url = string.Format("https://api.openweathermap.org/data/2.5/weather?q={0}&units={1}&appid={2}", txtSearch.Text,unit, apiKey);
-                var json=client.DownloadString(url);
+
+                var json =client.DownloadString(url);
                 weatherInfo.root Info = JsonConvert.DeserializeObject<weatherInfo.root>(json);
 
                 WindSpeed.Text = Info.wind.speed.ToString();
@@ -171,10 +170,69 @@ namespace Weather
                 else if (int.Parse(Info.wind.deg.ToString()) == 270) { windDirection.Text = "S"; }
                 else if(int.Parse(Info.wind.deg.ToString()) >270 && int.Parse(Info.wind.deg.ToString())<360) { windDirection.Text = "SE"; }
 
+                string uvIndexURL = string.Format("http://api.openweathermap.org/data/2.5/air_pollution?lat={0}&lon={1}&appid={2}", Info.coord.lat, Info.coord.lon, apiKey);
+                var json2 = client.DownloadString(uvIndexURL);
+                weatherInfo.root Infos = JsonConvert.DeserializeObject<weatherInfo.root>(json2);
+
+                AllocConsole();
+                Console.WriteLine((Info.coord.lat, Info.coord.lon));
+                UvVal.Text = Infos.list[0].main.aqi.ToString();
+
+                if (Infos.list[0].main.aqi==1)
+                {
+                    airQuality.Text = "Good";
+                    airQualityCondition.Source = new BitmapImage(new Uri(@"/Images/like.png", UriKind.Relative));
+
+                }
+
+                else if(Infos.list[0].main.aqi==2)
+                {
+                    airQuality.Text = "Fair";
+                    airQualityCondition.Source = new BitmapImage(new Uri(@"/Images/happy.png", UriKind.Relative));
+
+
+                }
+
+                else if(Infos.list[0].main.aqi==3)
+                {
+                    airQuality.Text = "Moderate";
+                    airQualityCondition.Source = new BitmapImage(new Uri(@"/Images/moderate.png", UriKind.Relative));
+
+
+                }
+
+                else if(Infos.list[0].main.aqi==4)
+                {
+                    airQuality.Text = "Poor";
+                    airQualityCondition.Source = new BitmapImage(new Uri(@"/Images/dislike.png", UriKind.Relative));
+
+                }
+                else
+                {
+                    airQuality.Text = "Very Poor";
+                    airQualityCondition.Source = new BitmapImage(new Uri(@"/Images/dislike.png", UriKind.Relative));
+
+
+                }
             }
 
         }
 
+        void getUV(object sender,RoutedEventArgs e)
+        {
+            using (WebClient web = new WebClient())
+            {
+                string url = string.Format("https://api.openweathermap.org/data/2.5/forecast?q={0}&units={1}&appid={2}", txtSearch.Text, unit, apiKey);
+
+                var json = web.DownloadString(url);
+                weatherForecast.forecast info2 = JsonConvert.DeserializeObject<weatherForecast.forecast>(json);
+
+          //      tempnext.Text = info2.list[1].main.temp.ToString();
+
+
+            }
+
+        }
         void getForecast(object sender, RoutedEventArgs e)
         {
           
@@ -186,14 +244,19 @@ namespace Weather
                 var json =web.DownloadString(url);
                 weatherForecast.forecast info2 = JsonConvert.DeserializeObject<weatherForecast.forecast>(json);
 
-                tempnext.Text = info2.list[1].main.temp.ToString();
+                tempnext.Text = info2.list[1].main.temp.ToString() + "°c \n fl:" + info2.list[1].main.feels_like.ToString()+ "°c";
 
+                secondHour.Text= info2.list[2].main.temp.ToString() + "°c\n fl:" + info2.list[2].main.feels_like.ToString() + "°c";
 
+                thirdHour.Text= info2.list[3].main.temp.ToString() + "°c\n fl:" + info2.list[3].main.feels_like.ToString() + "°c";
+
+                fourthHour.Text = info2.list[4].main.temp.ToString() + "°c\n fl:" + info2.list[4].main.feels_like.ToString() + "°c";
+
+                sixthHour.Text= info2.list[5].main.temp.ToString() + "°c\n fl:" + info2.list[5].main.feels_like.ToString() + "°c";
             }
         }
         private void click(object sender, RoutedEventArgs e)
         {
-
 
             weatherInfo(sender,e);
             getForecast(sender,e);
